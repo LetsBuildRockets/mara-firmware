@@ -2,7 +2,7 @@
 *.o
 *.a
 *.d
-*.elf
+*.bin
 *.dfu
 *.hex
 
