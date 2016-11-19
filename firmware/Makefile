@@ -25,10 +25,11 @@ APP_HEX = app-image.hex
 C_FILES = \
 	startup.c \
 	pins_teensy.c \
-	serial1.c \
-	mara_control.c
+	serial1.c
 
-CPP_FILES =
+CPP_FILES = \
+	FlexCAN.cpp \
+	mara_control.cpp
 
 # Headers
 INCLUDES = -I.

@@ -24,9 +24,13 @@
 #include <math.h>
 #include "arm_math.h"
 #include "fc_defs.h"
-#include "core_pins.h"
 #include "HardwareSerial.h"
 #include "wiring.h"
+
+#include "FlexCAN.h"
+
+FlexCAN can(1000000);
+static CAN_message_t rxmsg;
 
 // Reserved RAM area for signalling entry to bootloader
 extern uint32_t boot_token;
@@ -48,7 +52,7 @@ static void dfu_reboot()
     while (1);
 }
 
-extern int main()
+extern "C" int main()
 {
     pinMode(LED_BUILTIN, OUTPUT);
 
@@ -59,6 +63,8 @@ extern int main()
     // Application main loop
     while (true) {
         watchdog_refresh();
+        if(can.read(rxmsg))
+            serial_print("message");
     }
 
     // Reboot into DFU bootloader
