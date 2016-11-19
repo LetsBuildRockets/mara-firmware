@@ -66,7 +66,7 @@ $(TARGET).elf: $(OBJS) $(LDSCRIPT)
 
 %.hex: %.elf
 	$(OBJCOPY) -O ihex $< $(APP_HEX)
-	(grep -v :00000001FF $(FCBOOT_IMAGE); cat $(APP_HEX)) > $@
+	(grep -v :00000001FF $(FCBOOT_IMAGE) && cat $(APP_HEX)) > $@
 
 install: $(TARGET).dfu
 	$(DFU_UTIL) -d 1d50 -D $<
