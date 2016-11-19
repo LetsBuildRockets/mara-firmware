@@ -16,7 +16,7 @@ FCBOOT_IMAGE = ../bootloader/fc-boot.hex
 #######################################################
 
 # The name of your project (used to name the compiled .dfu file)
-TARGET = fc-firmware
+TARGET = mara-firmware
 
 # Temporary .hex file for application image only, without bootloader
 APP_HEX = app-image.hex
@@ -25,10 +25,10 @@ APP_HEX = app-image.hex
 C_FILES = \
 	startup.c \
 	pins_teensy.c \
-	serial1.c
+	serial1.c \
+	mara_control.c
 
-CPP_FILES = \
-	fadecandy.cpp
+CPP_FILES =
 
 # Headers
 INCLUDES = -I.

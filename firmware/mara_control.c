@@ -22,11 +22,11 @@
  */
 
 #include <math.h>
-#include <algorithm>
 #include "arm_math.h"
 #include "fc_defs.h"
 #include "core_pins.h"
 #include "HardwareSerial.h"
+#include "wiring.h"
 
 // Reserved RAM area for signalling entry to bootloader
 extern uint32_t boot_token;
@@ -48,7 +48,7 @@ static void dfu_reboot()
     while (1);
 }
 
-extern "C" int main()
+extern int main()
 {
     pinMode(LED_BUILTIN, OUTPUT);
 
