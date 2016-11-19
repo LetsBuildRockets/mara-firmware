@@ -1,3 +1,4 @@
+0. make sure arm-none-eabi toolchain and dfu-utils are installed
 1. `pushd bootloader; make -j8; popd;`
 2. `pushd firmware; make -j8; popd;`
 3. have fun with firmware/fc-firmware.dfu
