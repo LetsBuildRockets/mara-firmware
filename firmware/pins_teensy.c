@@ -156,7 +156,7 @@ void _init_Teensyduino_internal_(void)
     FTM1_C1SC = 0x28;
     FTM1_SC = FTM_SC_CLKS(1) | FTM_SC_PS(DEFAULT_FTM_PRESCALE);
 
-    usb_init();
+    // usb_init();
 }
 
 

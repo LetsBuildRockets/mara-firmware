@@ -25,15 +25,10 @@ APP_HEX = app-image.hex
 C_FILES = \
 	startup.c \
 	pins_teensy.c \
-	usb_desc.c \
-	usb_dev.c \
-	usb_mem.c \
 	serial1.c
 
 CPP_FILES = \
-	fadecandy.cpp \
-	fc_usb.cpp \
-	OctoWS2811z.cpp
+	fadecandy.cpp
 
 # Headers
 INCLUDES = -I.
