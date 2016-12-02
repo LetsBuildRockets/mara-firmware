@@ -29,6 +29,8 @@
 
 #include "FlexCAN.h"
 
+#include "rio/talon_rio.h"
+
 FlexCAN can(1000000);
 static CAN_message_t rxmsg;
 
