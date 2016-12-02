@@ -65,8 +65,25 @@ extern "C" int main()
     // Application main loop
     while (true) {
         watchdog_refresh();
-        if(can.read(rxmsg))
-            serial_print("message");
+        if (can.read(rxmsg)) {
+            if (rxmsg.id == PACKET_DISABLE)
+                serial_print("disabled");
+            else if (rxmsg.id == PACKET_ENABLE)
+                serial_print("enabled");
+            else {
+                int id = rxmsg.id & PART_DEVID;
+                if (id == 0 || id == 1) {
+                    int type = rxmsg.id & PART_PACKTYPE;
+                    switch (type) {
+                        case PACKET_SPEEDCHG: {
+                            float v = packetSpeedchgSpeed(rxmsg.buf);
+                            analogWrite(id + 1, v);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // Reboot into DFU bootloader

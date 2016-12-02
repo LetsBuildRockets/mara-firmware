@@ -51,7 +51,7 @@ LDSCRIPT = fcb-app.ld
 LDFLAGS = -Os -Wl,--gc-sections -mcpu=cortex-m4 -mthumb -nostdlib -T$(LDSCRIPT)
 
 # additional libraries to link
-LIBS = -lm
+LIBS = -lm -lgcc
 
 OBJS := $(C_FILES:.c=.o) $(CPP_FILES:.cpp=.o)
 
