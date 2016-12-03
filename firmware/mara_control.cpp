@@ -55,8 +55,10 @@ static void dfu_reboot()
 }
 
 static bool isEnabled = false;
+static bool shouldBrakeWhenNeutral = false;
 
 void setEnabled(bool b) {
+    shouldBrakeWhenNeutral = b;
     if (!b)
         for(int i = 0; i < 3; i++)
             setMotorSpeed(i, 0);
@@ -67,7 +69,7 @@ void setMotorSpeed(int motor, float speed){
     float f, b;
 
     if (speed == 0)
-        f = b = 1; // do braking when neutral
+        f = b = shouldBrakeWhenNeutral?1:0; // I'm so sorry
     else {
         f = max(speed, 0);
         b = -min(speed, 0);
