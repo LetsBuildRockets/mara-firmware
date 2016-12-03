@@ -54,6 +54,28 @@ static void dfu_reboot()
     while (1);
 }
 
+static bool isEnabled = false;
+
+void setEnabled(bool b) {
+    if (!b)
+        for(int i = 0; i < 3; i++)
+            setMotorSpeed(i, 0);
+    isEnabled = b;
+}
+
+void setMotorSpeed(int motor, float speed){
+    float f, b;
+
+    if (speed == 0)
+        f = b = 1; // do braking when neutral
+    else {
+        f = max(speed, 0);
+        b = -min(speed, 0);
+    }
+
+    analogWrite(motorNumToPin(id,true), f);
+    analogWrite(motorNumToPin(id,false), b);
+}
 
 
 extern "C" int main()
@@ -69,27 +91,19 @@ extern "C" int main()
         watchdog_refresh();
         if (can.read(rxmsg)) {
             if (rxmsg.id == PACKET_DISABLE)
-                serial_print("disabled");
+                setEnabled(false);
             else if (rxmsg.id == PACKET_ENABLE)
-                serial_print("enabled");
+                setEnabled(true);
             else {
                 int id = rxmsg.id & PART_DEVID;
                 if (id == 0 || id == 1 || id == 2 || id == 3) {
                     int type = rxmsg.id & PART_PACKTYPE;
                     switch (type) {
                         case PACKET_SPEEDCHG: {
+                            if (!isEnabled)
+                                break;
                             float v = packetSpeedchgSpeed(rxmsg.buf);
-                            float f, b;
-
-                            if (v == 0)
-                                f = b = 1; // do braking when neutral
-                            else {
-                                f = max(v, 0);
-                                b = -min(v, 0);
-                            }
-
-                            analogWrite(motorNumToPin(id,true), f);
-                            analogWrite(motorNumToPin(id,false), b);
+                            setMotorSpeed(id, v);
                             break;
                         }
                     }
