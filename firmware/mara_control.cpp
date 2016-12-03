@@ -105,12 +105,12 @@ extern "C" int main()
 static int motorNumToPin(int num, bool forward){
     switch (num) {
         case 0:
-            return forward?64:61;
+            return forward?5:6;
         case 1:
-            return forward?62:63;
+            return forward?20:21;
         case 2:
-            return forward?44:45;
+            return forward?22:23;
         case 3:
-            return forward?41:26;
+            return forward?32:25;
     }
 }
