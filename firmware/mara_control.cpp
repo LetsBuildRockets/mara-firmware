@@ -54,6 +54,8 @@ static void dfu_reboot()
     while (1);
 }
 
+
+
 extern "C" int main()
 {
     pinMode(LED_BUILTIN, OUTPUT);
@@ -72,12 +74,22 @@ extern "C" int main()
                 serial_print("enabled");
             else {
                 int id = rxmsg.id & PART_DEVID;
-                if (id == 0 || id == 1) {
+                if (id == 0 || id == 1 || id == 2 || id == 3) {
                     int type = rxmsg.id & PART_PACKTYPE;
                     switch (type) {
                         case PACKET_SPEEDCHG: {
                             float v = packetSpeedchgSpeed(rxmsg.buf);
-                            analogWrite(id + 1, v);
+                            float f, b;
+
+                            if (v == 0)
+                                f = b = 1; // do braking when neutral
+                            else {
+                                f = max(v, 0);
+                                b = -min(v, 0);
+                            }
+
+                            analogWrite(motorNumToPin(id,true), f);
+                            analogWrite(motorNumToPin(id,false), b);
                             break;
                         }
                     }
@@ -88,4 +100,17 @@ extern "C" int main()
 
     // Reboot into DFU bootloader
     dfu_reboot();
+}
+
+static int motorNumToPin(int num, bool forward){
+    switch (num) {
+        case 0:
+            return forward?64:61;
+        case 1:
+            return forward?62:63;
+        case 2:
+            return forward?44:45;
+        case 3:
+            return forward?41:26;
+    }
 }
