@@ -21,6 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include <algorithm>
 #include <math.h>
 #include "arm_math.h"
 #include "fc_defs.h"
@@ -57,12 +58,18 @@ static void dfu_reboot()
 static bool isEnabled = false;
 static bool shouldBrakeWhenNeutral = false;
 
-void setEnabled(bool b) {
-    shouldBrakeWhenNeutral = b;
-    if (!b)
-        for(int i = 0; i < 3; i++)
-            setMotorSpeed(i, 0);
-    isEnabled = b;
+static int motorNumToPin(int num, bool forward){
+    switch (num) {
+        case 0:
+            return forward?5:6;
+        case 1:
+            return forward?20:21;
+        case 2:
+            return forward?22:23;
+        case 3:
+            return forward?32:25;
+    }
+    return 0;
 }
 
 void setMotorSpeed(int motor, float speed){
@@ -75,10 +82,17 @@ void setMotorSpeed(int motor, float speed){
         b = -min(speed, 0);
     }
 
-    analogWrite(motorNumToPin(id,true), f);
-    analogWrite(motorNumToPin(id,false), b);
+    analogWrite(motorNumToPin(motor,true), f);
+    analogWrite(motorNumToPin(motor,false), b);
 }
 
+void setEnabled(bool b) {
+    shouldBrakeWhenNeutral = b;
+    if (!b)
+        for(int i = 0; i < 4; i++)
+            setMotorSpeed(i, 0);
+    isEnabled = b;
+}
 
 extern "C" int main()
 {
@@ -118,15 +132,4 @@ extern "C" int main()
     dfu_reboot();
 }
 
-static int motorNumToPin(int num, bool forward){
-    switch (num) {
-        case 0:
-            return forward?5:6;
-        case 1:
-            return forward?20:21;
-        case 2:
-            return forward?22:23;
-        case 3:
-            return forward?32:25;
-    }
-}
+
