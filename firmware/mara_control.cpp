@@ -67,7 +67,7 @@ static int motorNumToPin(int num, bool forward){
         case 2:
             return forward?22:23;
         case 3:
-            return forward?32:25;
+            return forward?9:10;
     }
     return 0;
 }
