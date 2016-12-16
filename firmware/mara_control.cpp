@@ -58,18 +58,9 @@ static void dfu_reboot()
 static bool isEnabled = false;
 static bool shouldBrakeWhenNeutral = false;
 
+int motorPins[] = {5, 20, 22, 9};
 static int motorNumToPin(int num, bool forward){
-    switch (num) {
-        case 0:
-            return forward?5:6;
-        case 1:
-            return forward?20:21;
-        case 2:
-            return forward?22:23;
-        case 3:
-            return forward?9:10;
-    }
-    return 0;
+    return motorPins[num] + forward;
 }
 
 void setMotorSpeed(int motor, float speed){
