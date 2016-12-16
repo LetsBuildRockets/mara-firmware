@@ -56,7 +56,7 @@ static void dfu_reboot()
 }
 
 static bool isEnabled = false;
-static bool shouldBrakeWhenNeutral = false;
+static bool shouldBrakeWhenNeutral = true;
 
 int motorPins[] = {5, 20, 22, 9};
 static int motorNumToPin(int num, bool forward){
