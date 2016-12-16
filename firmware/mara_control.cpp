@@ -63,7 +63,7 @@ static int motorNumToPin(int num, bool forward){
     return motorPins[num] + forward;
 }
 
-void setMotorSpeed(int motor, float speed){
+void setMotorSpeed(int motor, float speed, bool shouldBrakeWhenNeutral){
     float f, b;
 
     if (speed == 0)
@@ -78,10 +78,9 @@ void setMotorSpeed(int motor, float speed){
 }
 
 void setEnabled(bool b) {
-    shouldBrakeWhenNeutral = b;
     if (!b)
         for(int i = 0; i < 4; i++)
-            setMotorSpeed(i, 0);
+            setMotorSpeed(i, 0, b); // TODO: configurable braking
     isEnabled = b;
 }
 
@@ -110,7 +109,7 @@ extern "C" int main()
                             if (!isEnabled)
                                 break;
                             float v = packetSpeedchgSpeed(rxmsg.buf);
-                            setMotorSpeed(id, v);
+                            setMotorSpeed(id, v, shouldBrakeWhenNeutral);
                             break;
                         }
                     }
