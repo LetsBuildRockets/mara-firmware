@@ -2,3 +2,5 @@
 1. `pushd bootloader; make -j8; popd;`
 2. `pushd firmware; make -j8; popd;`
 3. have fun with firmware/mara-firmware.dfu
+
+run `openocd` (no parameters) in bootloader/ to communicate with your MK20 via Olimex OpenOCD JTAG ARM-USB-OCD-H device
