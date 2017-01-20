@@ -70,6 +70,7 @@ clean:
 
 # Install with OpenOCD. (No code protection!)
 install: $(TARGET).hex
+	echo "***\n*** If this fails, MAKE SURE YOU'RE USING OpenOCD 0.10.0+!!!\n***"
 	openocd -f openocd.cfg -c "program $(TARGET).hex verify reset"
 
 objdump: $(TARGET).elf

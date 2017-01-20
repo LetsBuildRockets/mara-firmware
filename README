@@ -4,3 +4,4 @@
 3. have fun with firmware/mara-firmware.dfu
 
 run `openocd` (no parameters) in bootloader/ to communicate with your MK20 via Olimex OpenOCD JTAG ARM-USB-OCD-H device
+for goodness' sake, please verify you're using a version of openocd v0.10.0+
